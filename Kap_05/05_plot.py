@@ -1,3 +1,5 @@
+# Einfaches Plotten ohne eine GUI
+
 # Grundlegendes:
 # Zur Verwendung dieser Dateien müssen wheel und matplotlib installiert sein
 # 1.) pip install wheel
@@ -18,3 +20,5 @@ s = sin( 2 * pi * t)
 plot(t, s)
 
 show()                     #Plotten des Graphen
+
+
