@@ -7,16 +7,20 @@ from tkinter import scrolledtext
 from tkinter import Menu
 from tkinter import messagebox as msg
 from tkinter import Spinbox
-from time import  sleep         
-#import Kap_04.ToolTip as tt
+from time import  sleep  
 
+#Import eigener Module :       
+#import Kap_04.ToolTip as tt
+import Queues as bq
+from TCP_server import start_server
+import URL as url
+
+#Weitere Imports
 from threading import Thread
 from queue import Queue
-
-import Queues as bq
-
-from tkinter import filedialog as fd  #Neue Imports
+from tkinter import filedialog as fd  
 from os import path, makedirs
+
 
 # Module level GLOBALS
 GLOBAL_CONST = 42
@@ -37,6 +41,10 @@ class OOP():
         
         self.defaultFileEntries()
 
+        #Starten des TCP/IP Servers in eigenem Thread:
+        svrT = Thread(target=start_server, daemon=True)
+        svrT.start()
+
     def defaultFileEntries(self):         #Alternative zum setzen von Globalen Variablen
         self.fileEntry.delete(0, tk.END) 
         self.fileEntry.insert(0, fDir)  
@@ -53,7 +61,9 @@ class OOP():
         
     def use_queues(self, loops=5):
         while True: 
-            print(self.gui_queue.get())        
+            q_item = self.gui_queue.get()
+            print(q_item)
+            self.scrol.insert(tk.INSERT, q_item + '\n')
                             
     def method_in_a_thread(self, num_of_loops=10):
         for idx in range(num_of_loops):
@@ -72,9 +82,13 @@ class OOP():
     # Button callback
     def click_me(self): 
         self.action.configure(text='Hello ' + self.name.get())
-        print(self)
+        #print(self)
         # self.create_thread()                # now called from imported module
         bq.write_to_scrol(self)    
+        sleep(2)
+        html_data = url.get_html()
+        print(html_data)
+        self.scrol.insert(tk.INSERT, html_data)
             
             
     def _spin(self):
@@ -281,7 +295,7 @@ class OOP():
         self.usingGlobal()
          
         # Auswahl von Tab2 beim Start 
-        tabControl.select(1)  
+        tabControl.select(0)  
                  
 #======================
 # Start GUI
