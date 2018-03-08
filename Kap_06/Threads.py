@@ -15,17 +15,23 @@ from tkinter import scrolledtext
 from tkinter import Menu
 from tkinter import messagebox as msg
 from tkinter import Spinbox
-from time    import sleep         
+from time    import sleep   
+
+import Kap_06.Queues as bq      
 
 from threading import Thread  #Import für Threads
+from queue     import Queue   #Import für Queues
 
 GLOBAL_CONST = 42
 
 class OOP():
+    # Alle Variablen, auf die von außerhalb zugegriffen werden soll
+    # Python würde aber eig. erzeugung mit (self) überall im Code erlauben
     def __init__(self):       
         self.win = tk.Tk()      
         self.win.title("Python GUI")      
         self.create_widgets()
+        self.gui_queue = Queue()  #Erstellen einer Queue
 
 #=====================================================
 ##MAGIC:##
@@ -36,11 +42,13 @@ class OOP():
         self.run_thread.setDaemon(True) # Abänderung Thread -> Daemon
         self.run_thread.start()
         print(self.run_thread)
-        print('createThread():', self.run_thread.isAlive()) #1.)Thread wird geboren
+        #print('createThread():', self.run_thread.isAlive()) #1.)Thread wird geboren
+        write_thread = Thread(target=self.use_queues, daemon=True) #Eigener Thread für Endlosschleife
+        write_thread.start()
 
     # Gethreadeter Code, da eine Funktion darüber ein Thread zugewiesen wurde
     def method_in_a_thread(self, num_of_loops=10): 
-        print('Hi, how are you?')
+        #print('Hi, how are you?')
         for idx in range(10):         # Langer Code-Teil wird in eigenen Thread ausgelagert!
             sleep(1)                  # !ACHTUNG! Schleife Startet mit jedem Thread neu!
             self.scrol.insert(tk.INSERT, str(idx) + 'n')
@@ -50,7 +58,20 @@ class OOP():
 
     def click_me(self): #Nicht gethreadeter Code (!Freezed das Fenster!)
         #self.action.configure(text='Hello ' + self.name.get() + ' ' + self.number_chosen.get())
-        self.create_thread() # Threadet Code -> kein Freeze
+        print(self)
+        bq.write_to_scrol(self)  #03)-> Zugriff auf GUI von überall durch (self)
+        #01 - Wird von importierter Methode aufgerufen)self.create_thread() # Threadet Code -> kein Freeze
+        #02)self.use_queues() Nicht, benötigt, da gestartet in (create_thread)
+
+
+    def use_queues(self):
+        gui_queue = Queue()  #Erzeugen eines Queue-Containers
+        print(gui_queue)
+        for idx in range(10):
+            gui_queue.put('Message from a queue: ' + str(idx)) #Queue
+        while True:                             #Endloses-entleeren (Freeze! OFC)
+            print(gui_queue.get())                  #De-queue
+
 
 # Bei vorzeitigem Schließen des Fenster wird eine Meldung geworfen, dass
 # der Thread nicht im Mainloop liegt -> Umändern von Thread zu Daemon
