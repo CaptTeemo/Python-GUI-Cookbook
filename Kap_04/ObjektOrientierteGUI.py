@@ -1,7 +1,8 @@
-'''
-May 2017
-@author: Burkhard A. Meier
-'''
+# Grundlegendes:
+# innerhalb eines Objekts ist die Reihenfolge, in der Funktionen stehen egal
+# Bei einem Funktionsaufruf muss als erster Parameter immer (self) übergeben werden
+
+
 #======================
 # imports
 #======================
