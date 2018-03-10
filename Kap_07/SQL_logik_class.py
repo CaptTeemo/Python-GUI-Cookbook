@@ -295,10 +295,10 @@ if __name__ == '__main__':
 #    mySQL.showDBs()
     
     #--Datenbank neu anlegen--#
-#    mySQL.createGuiDB()
-#    mySQL.dropTables()
-#    mySQL.createTables()
-#    mySQL.showTables()
+    mySQL.createGuiDB()
+    mySQL.dropTables()
+    mySQL.createTables()
+    mySQL.showTables()
      
     #--Bücher in der DB anzeigen--#
 #    mySQL.showBooks()
