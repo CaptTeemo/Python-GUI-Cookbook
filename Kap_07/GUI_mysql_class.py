@@ -1,3 +1,6 @@
+# Grundlegendes: in dieser KLasse wird auch die 'main'-Methode aufgerufen
+# Sie beinhaltet die Erzeugung sämtlicher Buttons und die grundlegenden Callbacks für diese
+# die eigentliche Logik übernimmt SQL_logik_class.py
 #======================
 # imports
 #======================
@@ -13,7 +16,7 @@ from queue import Queue
 from tkinter import filedialog as fd
 from os import path, makedirs
 from tkinter import messagebox as mBox
-from SQL_gui_class import MySQL 
+from SQL_logik_class import MySQL 
 
 # Module level GLOBALS
 GLOBAL_CONST = 42

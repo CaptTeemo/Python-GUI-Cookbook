@@ -1,9 +1,9 @@
 import MySQLdb as mysql 
 
-# Dictionary mit Login-Infos
+# Dictionary mit Login-Infos -> Kapselung der Daten
 dbConfig = {
     'user': 'Teemo', 
-    'password': 'deluxe22',
+    'password': '1234',
     'host': '127.0.0.1'
     }
 
