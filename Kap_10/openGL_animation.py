@@ -87,6 +87,7 @@ def main():
     glutCreateWindow(b"Bouncing Red Square")        # b -> verwandelt den String in Bytes
     glutDisplayFunc(RenderScene)  
     glutReshapeFunc(ChangeSize)  
+    
     glutTimerFunc(33, TimerFunction, 1)
     
     SetupRC()
